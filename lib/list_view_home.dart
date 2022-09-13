@@ -13,9 +13,8 @@ class ListViewHome extends StatelessWidget {
           child: Container(
               margin: const EdgeInsets.only(top: 128, bottom: 64),
               child: const Image(
-                // TODO: replace placeholder logo with an actual logo
-                image: AssetImage('assets/images/placeholder-logo.png'),
-                height: 44,
+                image: AssetImage('assets/images/logotext.png'),
+                height: 80,
               )),
         ),
         Container(
