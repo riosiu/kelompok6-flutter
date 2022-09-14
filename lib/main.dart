@@ -1,5 +1,6 @@
 import 'package:belajar_flutter/list_view_home.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-          primarySwatch: Colors.blue,
+          primaryColor: Colors.teal[900],
           appBarTheme: const AppBarTheme(foregroundColor: Colors.black)),
       home: const MyStatefulWidget(),
     );
@@ -60,6 +61,17 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
+      appBar: AppBar(
+        toolbarHeight: 0,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: Colors.teal[900], // <-- SEE HERE
+          statusBarIconBrightness:
+              Brightness.light, //<-- For Android SEE HERE (dark icons)
+          statusBarBrightness: Brightness.light,
+        ),
+      ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -80,9 +92,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
+        type: BottomNavigationBarType.fixed,
+        selectedItemColor: Colors.white,
         showUnselectedLabels: true,
-        unselectedItemColor: Colors.black,
+        backgroundColor: Colors.teal[900],
+        unselectedItemColor: Colors.white54,
         onTap: _onItemTapped,
       ),
     );
