@@ -4,33 +4,57 @@ import 'package:flutter/material.dart';
 class ListViewHome extends StatelessWidget {
   const ListViewHome({super.key});
 
+  Widget heroSection() {
+    return Container(
+        decoration: const BoxDecoration(
+            image: DecorationImage(
+          image: AssetImage("assets/images/hero-bg.png"),
+          fit: BoxFit.fill,
+        )),
+        // margin: const EdgeInsets.all(16),
+        child: Column(children: <Widget>[
+          Center(
+            child: Container(
+                margin: const EdgeInsets.only(top: 128, bottom: 64),
+                child: const Image(
+                  image: AssetImage('assets/images/logotext.png'),
+                  height: 80,
+                )),
+          ),
+          Container(
+              margin: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
+              child: TextFormField(
+                style: const TextStyle(color: Colors.white),
+                decoration: const InputDecoration(
+                    hintStyle: TextStyle(color: Colors.white),
+                    prefixIcon: Icon(Icons.search, color: Colors.white),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: Colors.white, width: 1.0)),
+                    enabledBorder: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: Colors.white, width: 1.0)),
+                    errorBorder: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: Colors.white, width: 1.0)),
+                    border: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: Colors.white, width: 1.0)),
+                    hintText: "Cari berdasarkan judul atau ISBN"),
+              ))
+        ]));
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView(
-      padding: const EdgeInsets.all(8),
       children: <Widget>[
-        Center(
-          child: Container(
-              margin: const EdgeInsets.only(top: 128, bottom: 64),
-              child: const Image(
-                image: AssetImage('assets/images/logotext.png'),
-                height: 80,
-              )),
-        ),
+        heroSection(),
         Container(
-            margin: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
-            child: TextFormField(
-              initialValue: '',
-              decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.search),
-                  hintText: "Cari berdasarkan judul atau ISBN"),
-            )),
-        Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             child: const Text("Baru saja ditambahkan ke daftar tersimpan",
                 style: TextStyle(
-                    fontFamily: "Roboto Medium",
+                    fontWeight: FontWeight.w600,
                     fontSize: 14,
                     color: Colors.black54))),
         const BookCard(
