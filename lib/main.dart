@@ -1,4 +1,4 @@
-import 'package:belajar_flutter/fons_style.dart';
+import 'package:belajar_flutter/list_view_home.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -15,35 +15,75 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
           primarySwatch: Colors.blue,
-          appBarTheme: AppBarTheme(foregroundColor: Colors.black)),
-      home: Scaffold(
-        appBar: AppBar(
-          title: (Text('Green House')),
-          backgroundColor: Colors.cyanAccent[200],
-        ),
-        body: SafeArea(
-          child: Container(
-            margin: EdgeInsets.only(left: 10, right: 10),
-            padding: EdgeInsets.only(left: 30, right: 30, top: 30, bottom: 30),
-            child: Column(
-              children: <Widget>[
-                Image(
-                  image: AssetImage('assets/images/garden-house.jpg'),
-                  height: 500,
-                ),
-                Text(
-                  'Garden House',
-                  style: mainHeader,
-                ),
-                Text(
-                  'Garden House  merupakan konsep Rumah yang bernuansa Alam',
-                  style: paragrafStyle,
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
+          appBarTheme: const AppBarTheme(foregroundColor: Colors.black)),
+      home: const MyStatefulWidget(),
+    );
+  }
+}
+
+class MyStatefulWidget extends StatefulWidget {
+  const MyStatefulWidget({super.key});
+
+  @override
+  State<MyStatefulWidget> createState() => _MyStatefulWidgetState();
+}
+
+class _MyStatefulWidgetState extends State<MyStatefulWidget> {
+  int _selectedIndex = 0;
+  static const TextStyle optionStyle =
+      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  static const List<Widget> _widgetOptions = <Widget>[
+    SafeArea(child: ListViewHome()),
+    Text(
+      'Index 1: Search',
+      style: optionStyle,
+    ),
+    Text(
+      'Index 2: Librari',
+      style: optionStyle,
+    ),
+    Text(
+      'Index 2: Lainnya',
+      style: optionStyle,
+    ),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: _widgetOptions.elementAt(_selectedIndex),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
           ),
-        ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: 'Cari Buku',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.bookmark),
+            label: 'Tersimpan',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Lainnya',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.amber[800],
+        showUnselectedLabels: true,
+        unselectedItemColor: Colors.black,
+        onTap: _onItemTapped,
       ),
     );
   }
