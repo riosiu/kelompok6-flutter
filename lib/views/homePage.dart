@@ -29,7 +29,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       style: optionStyle,
     ),
   ];
-  
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -39,6 +39,45 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(100),
+        child: AppBar(
+          centerTitle: true,
+          flexibleSpace: ClipRRect(
+            borderRadius: BorderRadius.only(
+              bottomRight: Radius.circular(50),
+              bottomLeft: Radius.circular(50),
+            ),
+            child: Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/images/hero-bg.png"),
+                  fit: BoxFit.fill,
+                ),
+              ),
+              child: Column(
+                children: <Widget>[
+                  Center(
+                    child: Container(
+                      margin: EdgeInsets.only(top: 32, bottom: 10),
+                      child: Image(
+                        image: AssetImage('assets/images/logotext.png'),
+                        height: 80,
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+            bottomRight: Radius.circular(50),
+            bottomLeft: Radius.circular(50),
+          )),
+        ),
+      ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),

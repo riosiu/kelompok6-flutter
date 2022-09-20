@@ -1,4 +1,4 @@
-import 'package:belajar_flutter/book_card.dart';
+import 'package:belajar_flutter/components/book_card.dart';
 import 'package:flutter/material.dart';
 
 class ListViewHome extends StatelessWidget {
@@ -25,17 +25,18 @@ class ListViewHome extends StatelessWidget {
         ),
         Card(
           elevation: 11.0,
-          shadowColor:  Colors.greenAccent,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)
-          ),
+          shadowColor: Colors.greenAccent,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
           child: Container(
             height: 120,
             width: 120,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10.0),
               image: DecorationImage(
-                image: AssetImage( './assets/images/books-1.jpg',
-              ),
+                image: AssetImage(
+                  './assets/images/books-1.jpg',
+                ),
               ),
             ),
           ),
