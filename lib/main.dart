@@ -1,5 +1,4 @@
 import 'package:belajar_flutter/screen/splashScreen.dart';
-import 'package:belajar_flutter/views/homePage.dart';
 import 'package:flutter/material.dart';
 
 void main() {

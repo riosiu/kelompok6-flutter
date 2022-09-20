@@ -1,3 +1,4 @@
+import 'package:belajar_flutter/screen/searchScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:belajar_flutter/screen/viewHome.dart';
 
@@ -14,6 +15,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     SafeArea(child: ListViewHome()),
+    SearchBooks(),
     Text(
       'Index 1: Search',
       style: optionStyle,
