@@ -1,4 +1,4 @@
-import 'package:belajar_flutter/book_card.dart';
+import 'package:booktracers/components/bookCard.dart';
 import 'package:flutter/material.dart';
 
 class ListViewHome extends StatelessWidget {
