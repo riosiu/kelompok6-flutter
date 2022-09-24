@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:booktracers/screen/searchScreen.dart';
 import 'package:booktracers/screen/listHome.dart';
 import 'package:flutter/services.dart';
 
@@ -15,7 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     SafeArea(child: ListViewHome()),
-    // SearchScreen(),
+    SearchScreen(),
     Text(
       'Index 2: Librari',
       style: optionStyle,
