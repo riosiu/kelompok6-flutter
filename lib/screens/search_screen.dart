@@ -29,6 +29,9 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   void initState() {
     _searchKeyword = widget.initialSearchKeyword;
+    if (widget.initialSearchKeyword.isNotEmpty) {
+      _futureBooks = fetchBooksBySearchKeyword(widget.initialSearchKeyword);
+    }
     super.initState();
   }
 
@@ -136,34 +139,19 @@ class _SearchScreenState extends State<SearchScreen> {
     return FutureBuilder<List<Book>>(
         future: _futureBooks,
         builder: (((context, snapshot) {
-          if (ConnectionState.active != null && !snapshot.hasData) {
-            return const Center(child: CircularProgressIndicator());
-          }
-
-          // WHEN THE CALL IS DONE BUT HAPPENS TO HAVE AN ERROR
-          if (ConnectionState.done != null && snapshot.hasError) {
-            return Center(child: Text(snapshot.error.toString()));
-          }
-
           if (snapshot.hasError) {
             return Center(child: Text(snapshot.error.toString()));
           }
 
-          if (snapshot.hasData) {
+          if (snapshot.data != null) {
             return ListView.builder(
                 itemCount: snapshot.data!.length,
                 itemBuilder: ((context, index) {
-                  String title = snapshot.data![index].title ?? "";
-                  int year = DateTime.parse(
-                          snapshot.data![index].publishedDateString ??
-                              "2022-01-01 00:00:00")
-                      .year;
-                  String description = snapshot.data![index].description ?? "";
+                  Book currentIndexBook = snapshot.data![index];
+
                   return BookCard(
-                      title: title,
-                      year: year,
-                      coverImageSrc: snapshot.data![index].smallThumbnailSrc,
-                      description: description);
+                    book: currentIndexBook,
+                  );
                 }));
           }
 
