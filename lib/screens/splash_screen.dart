@@ -1,9 +1,10 @@
-// import 'package:booktracers/screens/homeScreen.dart';
-import 'package:booktracers/screen/homeScreen.dart';
+import 'package:booktrackers/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 
 class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
   @override
   State<SplashScreen> createState() => _SplashScreenState();
 }
@@ -11,11 +12,10 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: AnimatedSplashScreen(
-      backgroundColor: Colors.teal,
+    return AnimatedSplashScreen(
+      backgroundColor: Colors.teal.shade900,
       splash: Image.asset('./assets/images/logotext.png'),
       nextScreen: HomeScreen(),
-    ));
+    );
   }
 }
