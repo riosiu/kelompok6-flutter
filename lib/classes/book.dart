@@ -22,16 +22,15 @@ class Book {
 
   factory Book.fromJson(Map<String, dynamic> json) {
     return Book(
-      id: json["id"],
-      etag: json["etag"],
-      title: json["volumeInfo"]?["title"],
-      // authors: (json["volumeInfo"]?["authors"]) as List<String>,
-      authors: [],
-      publisher: json["volumeInfo"]?["publisher"],
-      publishedDateString: json["volumeInfo"]?["publishedDate"],
-      description: json["volumeInfo"]?["description"],
-      pageCount: json["volumeInfo"]?["pageCount"],
-      smallThumbnailSrc: json["volumeInfo"]?["smallThumbnail"],
+      id: json["id"] as String?,
+      etag: json["etag"] as String?,
+      title: json["volumeInfo"]["title"] as String?,
+      authors: json["volumeInfo"]["authors"].cast<String>(),
+      publisher: json["volumeInfo"]["publisher"] as String?,
+      publishedDateString: json["volumeInfo"]["publishedDate"] as String?,
+      description: json["volumeInfo"]["description"] as String?,
+      pageCount: json["volumeInfo"]["pageCount"] as int?,
+      smallThumbnailSrc: json["volumeInfo"]["smallThumbnail"] as String?,
     );
   }
 }
