@@ -1,4 +1,4 @@
-import 'package:booktracers/screen/splashScreen.dart';
+import 'package:booktrackers/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           primaryColor: Colors.teal[900],
           appBarTheme: const AppBarTheme(foregroundColor: Colors.black)),
-      home: SplashScreen(),
+      home: const SplashScreen(),
     );
   }
 }
