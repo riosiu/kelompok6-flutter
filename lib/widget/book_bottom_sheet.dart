@@ -1,7 +1,10 @@
+import 'package:booktrackers/classes/book.dart';
 import 'package:flutter/material.dart';
 
 class BookBottomSheet extends StatelessWidget {
-  const BookBottomSheet({Key? key}) : super(key: key);
+  final Book book;
+
+  const BookBottomSheet({Key? key, required this.book}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -12,19 +15,23 @@ class BookBottomSheet extends StatelessWidget {
               controller: scrollController,
               children: [
                 ListTile(
-                  title: const Text("Nineteen Eighty-four"),
-                  subtitle: Text(
-                    1949.toString(),
-                    style: TextStyle(color: Colors.black.withOpacity(0.6)),
-                  ),
-                ),
+                    title: Text(book.title ?? "Tanpa judul"),
+                    subtitle: Text(
+                      book.publishedDateString != null
+                          ? "Tahun ${book.publishedDateString!.substring(0, 4)}"
+                          : "",
+                      style: TextStyle(color: Colors.black.withOpacity(0.6)),
+                    )),
                 const Divider(),
-                SizedBox(
-                    height: 180.0,
-                    child: Center(
-                        child: Image.network(
-                            "http://books.google.com/books/content?id=JT_JDAAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api"))),
-                const Divider(),
+                book.smallThumbnailSrc != null
+                    ? SizedBox(
+                        height: 180.0,
+                        child: Center(
+                            child: Image.network(book.smallThumbnailSrc!)))
+                    : const SizedBox(),
+                book.smallThumbnailSrc != null
+                    ? const Divider()
+                    : const SizedBox(),
                 Flex(
                     verticalDirection: VerticalDirection.down,
                     direction: Axis.horizontal,
@@ -87,26 +94,11 @@ class BookBottomSheet extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Text(
-                    "description " * 100,
+                    book.description ?? "",
                     style: TextStyle(color: Colors.black.withOpacity(0.6)),
                   ),
                 ),
                 const Divider(),
-                const ListTile(
-                  title: Text('Title 2'),
-                ),
-                const Divider(),
-                const ListTile(
-                  title: Text('Title 3'),
-                ),
-                const Divider(),
-                const ListTile(
-                  title: Text('Title 4'),
-                ),
-                const Divider(),
-                const ListTile(
-                  title: Text('Title 5'),
-                ),
               ],
             ));
   }
