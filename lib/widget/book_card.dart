@@ -1,4 +1,6 @@
 import 'package:booktrackers/classes/book.dart';
+import 'package:booktrackers/screens/saved_screen.dart';
+import 'package:booktrackers/services/saved_book_service.dart';
 import 'package:booktrackers/widget/book_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 
@@ -18,6 +20,10 @@ class BookCard extends StatelessWidget {
       this.year,
       this.coverImageSrc,
       this.description});
+
+  void saveBook() {
+    SavedBook.add(book).then((_) => null);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +80,9 @@ class BookCard extends StatelessWidget {
                               Theme.of(context).primaryColor),
                         ),
                         onPressed: () {
-                          // Perform some action
+                          saveBook();
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => const SavedScreen()));
                         },
                         child: const Icon(Icons.add),
                       ),
