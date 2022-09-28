@@ -1,9 +1,7 @@
-import 'package:booktrackers/classes/book.dart';
 import 'package:booktrackers/services/saved_book_service.dart';
 import 'package:booktrackers/widget/future_book_card.dart';
 import 'package:flutter/material.dart';
 import 'package:booktrackers/helpers/theme.dart';
-import 'package:booktrackers/widget/book_card.dart';
 import 'package:booktrackers/widget/my_bottom_navigation_bar.dart';
 
 class SavedScreen extends StatefulWidget {
@@ -45,9 +43,22 @@ class _SavedScreenState extends State<SavedScreen> {
   }
 
   @override
+  void initState() {
+    _savedBooks = fetchSavedBooks();
+
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text("Daftar tersimpan")),
+        appBar: AppBar(
+          leading: null,
+          automaticallyImplyLeading: false,
+          title: const Text("Daftar tersimpan"),
+          backgroundColor: Theme.of(context).primaryColor,
+          foregroundColor: Colors.white,
+        ),
         body: bookCardListBuilder(),
         bottomNavigationBar: MyBottomNavigationBar(
           currentIndex: 2,
