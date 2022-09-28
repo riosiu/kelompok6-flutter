@@ -2,6 +2,8 @@ import 'package:booktrackers/classes/book.dart';
 import 'package:booktrackers/screens/saved_screen.dart';
 import 'package:booktrackers/services/saved_book_service.dart';
 import 'package:booktrackers/widget/book_bottom_sheet.dart';
+import 'package:booktrackers/widget/book_card_save_button.dart';
+import 'package:booktrackers/widget/future_book_card_save_button.dart';
 import 'package:flutter/material.dart';
 
 class BookCard extends StatelessWidget {
@@ -28,20 +30,15 @@ class BookCard extends StatelessWidget {
   }
 
   Widget saveButtonBuilder(BuildContext context) {
-    return TextButton(
-      style: ButtonStyle(
-        foregroundColor:
-            MaterialStateProperty.all<Color>(Theme.of(context).primaryColor),
-      ),
-      onPressed: () {
-        saveBook();
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => const SavedScreen()));
-      },
-      child: savedBook?.page != null && book.pageCount != null
-          ? Text("${savedBook!.page / book.pageCount!}%")
-          : const Icon(Icons.add),
-    );
+    if (savedBook == null) {
+      return FutureBookCardSaveButton(book: book);
+    }
+
+    if (savedBook != null) {
+      return BookCardSaveButton(book: book, savedBook: savedBook);
+    }
+
+    return FutureBookCardSaveButton(book: book);
   }
 
   @override
