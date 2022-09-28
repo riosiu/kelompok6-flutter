@@ -23,11 +23,14 @@ class _FutureBookCardState extends State<FutureBookCard> {
     return FutureBuilder<Book>(
         future: _futureBook,
         builder: ((context, snapshot) {
-          if (!snapshot.hasData && snapshot.data != null) {
+          if (snapshot.data != null) {
+            return BookCard(
+              book: snapshot.data!,
+              savedBook: widget.savedBook,
+            );
+          } else {
             return const SizedBox(height: 120);
           }
-
-          return BookCard(book: snapshot.data!);
         }));
   }
 
