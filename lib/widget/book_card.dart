@@ -35,7 +35,10 @@ class BookCard extends StatelessWidget {
     }
 
     if (savedBook != null) {
-      return BookCardSaveButton(book: book, savedBook: savedBook);
+      return BookCardSaveButton(
+        book: book,
+        savedBook: savedBook,
+      );
     }
 
     return FutureBookCardSaveButton(book: book);

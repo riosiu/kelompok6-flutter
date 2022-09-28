@@ -7,8 +7,10 @@ import 'package:flutter/material.dart';
 class BookCardSaveButton extends StatelessWidget {
   final Book book;
   final SavedBook? savedBook;
+  final Function? savedBookSetter;
 
-  const BookCardSaveButton({Key? key, required this.book, this.savedBook})
+  const BookCardSaveButton(
+      {Key? key, required this.book, this.savedBook, this.savedBookSetter})
       : super(key: key);
 
   void saveBook() {
@@ -30,8 +32,11 @@ class BookCardSaveButton extends StatelessWidget {
         } else {
           showDialog(
               context: context,
-              builder: ((context) =>
-                  UpdatePageDialog(savedBook: savedBook!, book: book!)));
+              builder: ((context) => UpdatePageDialog(
+                    savedBook: savedBook!,
+                    savedBookSetter: savedBookSetter!,
+                    book: book,
+                  )));
         }
       },
       child: savedBook?.page != null && book.pageCount != null

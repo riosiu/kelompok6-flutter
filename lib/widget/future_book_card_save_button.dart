@@ -25,6 +25,12 @@ class _FutureBookCardSaveButtonState extends State<FutureBookCardSaveButton> {
     }
   }
 
+  void _futureSavedBookSetter() {
+    setState(() {
+      _futureSavedBook = fetchSavedBook();
+    });
+  }
+
   @override
   void initState() {
     _futureSavedBook = fetchSavedBook();
@@ -40,6 +46,7 @@ class _FutureBookCardSaveButtonState extends State<FutureBookCardSaveButton> {
             return BookCardSaveButton(
               book: widget.book,
               savedBook: snapshot.data!,
+              savedBookSetter: _futureSavedBookSetter,
             );
           }
 

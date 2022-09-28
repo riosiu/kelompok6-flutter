@@ -5,8 +5,11 @@ import 'package:flutter/cupertino.dart';
 
 class FutureBookCard extends StatefulWidget {
   final SavedBook savedBook;
+  final Function? savedBookSetter;
 
-  const FutureBookCard({Key? key, required this.savedBook}) : super(key: key);
+  const FutureBookCard(
+      {Key? key, required this.savedBook, this.savedBookSetter})
+      : super(key: key);
 
   @override
   _FutureBookCardState createState() => _FutureBookCardState();
@@ -26,7 +29,6 @@ class _FutureBookCardState extends State<FutureBookCard> {
           if (snapshot.data != null) {
             return BookCard(
               book: snapshot.data!,
-              savedBook: widget.savedBook,
             );
           } else {
             return const SizedBox(height: 120);

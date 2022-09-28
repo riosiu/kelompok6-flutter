@@ -34,12 +34,18 @@ class _SavedScreenState extends State<SavedScreen> {
 
                   return FutureBookCard(
                     savedBook: currentIndexSavedBook,
+                    savedBookSetter: futureSavedBooksSetter,
                   );
                 }));
           }
 
           return const Center(child: CircularProgressIndicator());
         })));
+  }
+
+  void futureSavedBooksSetter() {
+    _savedBooks = null;
+    _savedBooks = fetchSavedBooks();
   }
 
   @override

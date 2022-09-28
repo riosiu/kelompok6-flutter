@@ -6,9 +6,13 @@ import 'package:flutter/services.dart';
 class UpdatePageDialog extends StatefulWidget {
   final SavedBook savedBook;
   final Book book;
+  final Function? savedBookSetter;
 
   const UpdatePageDialog(
-      {Key? key, required this.savedBook, required this.book})
+      {Key? key,
+      required this.savedBook,
+      required this.book,
+      this.savedBookSetter})
       : super(key: key);
 
   @override
@@ -53,6 +57,7 @@ class _UpdatePageDialogState extends State<UpdatePageDialog> {
             onPressed: () {
               widget.savedBook
                   .updateProgress(int.parse(_pageNumberInputController.text));
+              widget.savedBookSetter!();
               Navigator.pop(context);
             },
             child: const Text("Simpan")),
