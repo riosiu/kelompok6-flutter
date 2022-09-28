@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 
 class BookCard extends StatelessWidget {
   final Book book;
+  final SavedBook? savedBook;
 
   // TODO: delete
   final String? title;
@@ -16,6 +17,7 @@ class BookCard extends StatelessWidget {
   const BookCard(
       {super.key,
       required this.book,
+      this.savedBook,
       this.title,
       this.year,
       this.coverImageSrc,
@@ -23,6 +25,23 @@ class BookCard extends StatelessWidget {
 
   void saveBook() {
     SavedBook.add(book).then((_) => null);
+  }
+
+  Widget saveButtonBuilder(BuildContext context) {
+    return TextButton(
+      style: ButtonStyle(
+        foregroundColor:
+            MaterialStateProperty.all<Color>(Theme.of(context).primaryColor),
+      ),
+      onPressed: () {
+        saveBook();
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => const SavedScreen()));
+      },
+      child: savedBook?.page != null && book.pageCount != null
+          ? Text("${savedBook!.page / book.pageCount!}%")
+          : const Icon(Icons.add),
+    );
   }
 
   @override
@@ -74,18 +93,7 @@ class BookCard extends StatelessWidget {
                         },
                         child: Text('Lihat Detil'.toUpperCase()),
                       ),
-                      TextButton(
-                        style: ButtonStyle(
-                          foregroundColor: MaterialStateProperty.all<Color>(
-                              Theme.of(context).primaryColor),
-                        ),
-                        onPressed: () {
-                          saveBook();
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => const SavedScreen()));
-                        },
-                        child: const Icon(Icons.add),
-                      ),
+                      saveButtonBuilder(context),
                     ],
                   ),
                 ],
