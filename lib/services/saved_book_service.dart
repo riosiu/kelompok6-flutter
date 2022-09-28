@@ -6,7 +6,7 @@ import 'package:http/http.dart';
 import 'package:sqflite/sqflite.dart';
 
 class SavedBook {
-  final String id;
+  final int id;
   final String googleBooksVolumeId;
   final int page;
   final DateTime? startedReading;
@@ -22,7 +22,10 @@ class SavedBook {
   static Future<int> add(Book book) async {
     final Database db = await initDb();
 
-    return await db.insert("saved_book", book.toMap());
+    return await db.insert("saved_book", <String, Object?>{
+      "google_books_volume_id": book.id,
+      "page": 0,
+    });
   }
 
   static Future<List<SavedBook>> getMany() async {
@@ -30,12 +33,14 @@ class SavedBook {
     final queryResult = await db.query("saved_book");
     final List<SavedBook> savedBooks = queryResult
         .map((item) => SavedBook(
-            id: item["id"] as String,
-            googleBooksVolumeId: item["google_books_volume_id"] as String,
-            page: item["page"] as int,
-            startedReading: DateTime.parse(item["started_reading"] as String),
-            finishedReading:
-                DateTime.parse(item["finished_reading"] as String)))
+              id: item["id"] as int,
+              googleBooksVolumeId: item["google_books_volume_id"] as String,
+              page: item["page"] as int,
+              // startedReading:
+              //     DateTime.parse(item["started_reading"] as String? ?? ""),
+              // finishedReading:
+              //     DateTime.parse(item["finished_reading"] as String? ?? ""),
+            ))
         .toList();
 
     return savedBooks;
@@ -45,7 +50,7 @@ class SavedBook {
     final response = await get(Uri.parse(
         "https://www.googleapis.com/books/v1/volumes/$googleBooksVolumeId"));
     final json = jsonDecode(response.body);
-    
+
     return Book.fromJson(json);
   }
 }
