@@ -6,11 +6,11 @@ import 'package:http/http.dart';
 import 'package:sqflite/sqflite.dart';
 
 class SavedBook {
-  final int id;
-  final String googleBooksVolumeId;
-  final int page;
-  final DateTime? startedReading;
-  final DateTime? finishedReading;
+  int id;
+  String googleBooksVolumeId;
+  int page;
+  DateTime? startedReading;
+  DateTime? finishedReading;
 
   SavedBook(
       {required this.id,
@@ -46,11 +46,40 @@ class SavedBook {
     return savedBooks;
   }
 
+  static Future<SavedBook> getOneByGoogleBooksVolumeId(
+      String googleBooksVolumeId) async {
+    final Database db = await initDb();
+    // List<Map<String, Object?>> queryResult = await db.query("saved_book",
+    //     where: "google_books_volume_id = ?", whereArgs: [googleBooksVolumeId]);
+    List<Map<String, Object?>> queryResult = await db.rawQuery(
+        'SELECT * FROM "saved_book" WHERE "google_books_volume_id" = "$googleBooksVolumeId";');
+
+    if (queryResult.isEmpty || queryResult == null) {
+      throw "data not found";
+    }
+
+    return SavedBook(
+        id: queryResult[0]["id"] as int,
+        googleBooksVolumeId: queryResult[0]["google_books_volume_id"] as String,
+        page: queryResult[0]["page"] as int);
+  }
+
   Future<Book> toBook() async {
     final response = await get(Uri.parse(
         "https://www.googleapis.com/books/v1/volumes/$googleBooksVolumeId"));
     final json = jsonDecode(response.body);
 
     return Book.fromJson(json);
+  }
+
+  Future<SavedBook> updateProgress(int page) async {
+    final Database db = await initDb();
+    final result = await db.update("saved_book", <String, Object?>{
+      "google_books_volume_id": googleBooksVolumeId,
+      "page": page,
+    });
+    this.page = page;
+
+    return this;
   }
 }
