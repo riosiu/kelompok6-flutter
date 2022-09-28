@@ -1,4 +1,8 @@
 import 'package:booktrackers/classes/book.dart';
+import 'package:booktrackers/widget/detail_widget/author_widget.dart';
+import 'package:booktrackers/widget/detail_widget/description_widget.dart';
+import 'package:booktrackers/widget/detail_widget/row_widget_detail_book.dart';
+import 'package:booktrackers/widget/detail_widget/title_widget.dart';
 import 'package:flutter/material.dart';
 
 class BookBottomSheet extends StatelessWidget {
@@ -8,98 +12,86 @@ class BookBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DraggableScrollableSheet(
-        initialChildSize: 0.6,
-        expand: false,
-        builder: (context, scrollController) => ListView(
-              controller: scrollController,
-              children: [
-                ListTile(
-                    title: Text(book.title ?? "Tanpa judul"),
-                    subtitle: Text(
-                      book.publishedDateString != null
-                          ? "Tahun ${book.publishedDateString!.substring(0, 4)}"
-                          : "",
-                      style: TextStyle(color: Colors.black.withOpacity(0.6)),
-                    )),
-                const Divider(),
-                book.smallThumbnailSrc != null
-                    ? SizedBox(
-                        height: 180.0,
-                        child: Center(
-                            child: Image.network(book.smallThumbnailSrc!)))
-                    : const SizedBox(),
-                book.smallThumbnailSrc != null
-                    ? const Divider()
-                    : const SizedBox(),
-                Flex(
-                    verticalDirection: VerticalDirection.down,
-                    direction: Axis.horizontal,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Expanded(
-                          child: SizedBox(
-                              height: 72.0,
-                              child: Column(
-                                children: [
-                                  IconButton(
-                                    icon:
-                                        const Icon(Icons.bookmark_add_outlined),
-                                    iconSize: 32.0,
-                                    onPressed: () => {},
-                                  ),
-                                  const Text(
-                                    "Tambahkan",
-                                    textAlign: TextAlign.center,
-                                  )
-                                ],
-                              ))),
-                      Visibility(
-                          visible: false,
-                          child: Expanded(
-                              child: SizedBox(
-                                  height: 72.0,
-                                  child: Column(
-                                    children: [
-                                      TextButton(
-                                        child: const Text("19%",
-                                            style:
-                                                TextStyle(color: Colors.black)),
-                                        onPressed: () => {},
-                                      ),
-                                      const Text(
-                                        "Update Progres",
-                                        textAlign: TextAlign.center,
-                                      )
-                                    ],
-                                  )))),
-                      Expanded(
-                          child: SizedBox(
-                              height: 72.0,
-                              child: Column(
-                                children: [
-                                  IconButton(
-                                    icon: const Icon(Icons.share),
-                                    iconSize: 32.0,
-                                    onPressed: () => {},
-                                  ),
-                                  const Text(
-                                    "Bagikan",
-                                    textAlign: TextAlign.center,
-                                  )
-                                ],
-                              ))),
-                    ]),
-                const Divider(),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                    book.description ?? "",
-                    style: TextStyle(color: Colors.black.withOpacity(0.6)),
+    return GestureDetector(
+      onTap: () {},
+      child: Container(
+        color: Color(0xFF737373).withOpacity(0),
+        child: Stack(
+          clipBehavior: Clip.none,
+          alignment: Alignment.center,
+          children: <Widget>[
+            Container(
+              height: MediaQuery.of(context).size.height * 0.80,
+              width: double.infinity,
+              margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 0),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(32.0),
+                  topRight: Radius.circular(32.0),
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.only(
+                    top: (180 / 2) + 20, left: 16.0, right: 16.0),
+                child: Column(
+                  children: [
+                    AuthorWidget(book),
+                    SizedBox(height: 10.0),
+                    TitleWidget(book),
+                    Divider(),
+                    DescriptionBookWidget(book),
+                    SizedBox(height: 10.0),
+                    Divider(),
+                    SizedBox(height: 10.0),
+                    // RowdataWidget(book),
+                    SizedBox(height: 10.0),
+                    Divider(),
+                  ],
+                ),
+              ),
+            ),
+            Positioned(
+              top: -180 / 2,
+              child: Card(
+                elevation: 10.0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(8),
                   ),
                 ),
-                const Divider(),
-              ],
-            ));
+                child: Container(
+                  width: 100,
+                  height: 150,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    // child: Image.network(
+                    //   book.smallThumbnailSrc,
+                    //   fit: BoxFit.cover,
+                    // ),
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              left: 25,
+              top: 20,
+              child: IconButton(
+                icon: Icon(Icons.share),
+                onPressed: () {},
+              ),
+            ),
+            Positioned(
+              right: 20,
+              top: 20,
+              child: IconButton(
+                icon: Icon(Icons.bookmark),
+                onPressed: () {},
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
