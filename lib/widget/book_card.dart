@@ -72,8 +72,8 @@ class BookCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ), //     child: Image.network(book.smallThumbnailSrc!)),
-                  book.smallThumbnailSrc != null
-                      ? Image.network(book.smallThumbnailSrc!)
+                  book.thumbnailSrc != null
+                      ? Image.network(book.thumbnailSrc!)
                       : const SizedBox(), // nambahain gambar
                   ButtonBar(
                     alignment: MainAxisAlignment.spaceBetween,
