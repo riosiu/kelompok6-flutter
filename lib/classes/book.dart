@@ -7,7 +7,7 @@ class Book {
   final String? publishedDateString;
   final String? description;
   final int? pageCount;
-  final String? smallThumbnailSrc;
+  final String? thumbnailSrc;
 
   const Book(
       {this.id,
@@ -18,7 +18,7 @@ class Book {
       this.publishedDateString,
       this.description,
       this.pageCount,
-      this.smallThumbnailSrc});
+      this.thumbnailSrc});
 
   factory Book.fromJson(Map<String, dynamic> json) {
     return Book(
@@ -30,7 +30,7 @@ class Book {
       publishedDateString: json["volumeInfo"]["publishedDate"] as String?,
       description: json["volumeInfo"]["description"] as String?,
       pageCount: json["volumeInfo"]["pageCount"] as int?,
-      smallThumbnailSrc: json["volumeInfo"]["smallThumbnail"] as String?,
+      thumbnailSrc: json["volumeInfo"]["imageLinks"]["thumbnail"] as String?,
     );
   }
 }

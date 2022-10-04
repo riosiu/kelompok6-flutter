@@ -65,10 +65,10 @@ class BookBottomSheet extends StatelessWidget {
                   height: 150,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(8),
-                    // child: Image.network(
-                    //   book.smallThumbnailSrc,
-                    //   fit: BoxFit.cover,
-                    // ),
+                    child: book.thumbnailSrc != null
+                        ? Image.network(book.thumbnailSrc!)
+                        : Image.network(
+                            'https://www.wildhareboca.com/wp-content/uploads/sites/310/2018/03/image-not-available.jpg'),
                   ),
                 ),
               ),
