@@ -1,9 +1,14 @@
 import 'package:booktrackers/classes/book.dart';
+import 'package:booktrackers/screens/saved_screen.dart';
+import 'package:booktrackers/services/saved_book_service.dart';
 import 'package:booktrackers/widget/book_bottom_sheet.dart';
+import 'package:booktrackers/widget/book_card_save_button.dart';
+import 'package:booktrackers/widget/future_book_card_save_button.dart';
 import 'package:flutter/material.dart';
 
 class BookCard extends StatelessWidget {
   final Book book;
+  final SavedBook? savedBook;
 
   // TODO: delete
   final String? title;
@@ -14,10 +19,30 @@ class BookCard extends StatelessWidget {
   const BookCard(
       {super.key,
       required this.book,
+      this.savedBook,
       this.title,
       this.year,
       this.coverImageSrc,
       this.description});
+
+  void saveBook() {
+    SavedBook.add(book).then((_) => null);
+  }
+
+  Widget saveButtonBuilder(BuildContext context) {
+    if (savedBook == null) {
+      return FutureBookCardSaveButton(book: book);
+    }
+
+    if (savedBook != null) {
+      return BookCardSaveButton(
+        book: book,
+        savedBook: savedBook,
+      );
+    }
+
+    return FutureBookCardSaveButton(book: book);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,16 +90,7 @@ class BookCard extends StatelessWidget {
                         },
                         child: Text('Lihat Detil'.toUpperCase()),
                       ),
-                      TextButton(
-                        style: ButtonStyle(
-                          foregroundColor: MaterialStateProperty.all<Color>(
-                              Theme.of(context).primaryColor),
-                        ),
-                        onPressed: () {
-                          // Perform some action
-                        },
-                        child: const Icon(Icons.add),
-                      ),
+                      saveButtonBuilder(context),
                     ],
                   ),
                 ],

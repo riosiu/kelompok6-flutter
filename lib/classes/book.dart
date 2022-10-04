@@ -33,4 +33,18 @@ class Book {
       thumbnailSrc: json["volumeInfo"]["imageLinks"]["thumbnail"] as String?,
     );
   }
+
+  Map<String, Object?> toMap() {
+    return <String, Object?>{
+      "id": id,
+      "etag": etag,
+      "title": title,
+      "authors": authors,
+      "publisher": publisher,
+      "publishedDateString": publishedDateString,
+      "description": description,
+      "pageCount": pageCount,
+      "smallThumbnailSrc": smallThumbnailSrc
+    };
+  }
 }
