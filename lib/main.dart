@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Booktrackers',
+      title: 'Flutter Demo',
       theme: ThemeData(
           primaryColor: Colors.teal[900],
           appBarTheme: const AppBarTheme(foregroundColor: Colors.black)),
