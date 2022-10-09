@@ -29,8 +29,10 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   void initState() {
     _searchKeyword = widget.initialSearchKeyword;
+
     if (widget.initialSearchKeyword.isNotEmpty) {
       _futureBooks = fetchBooksBySearchKeyword(widget.initialSearchKeyword);
+      print('jalan bos');
     }
     super.initState();
   }
@@ -42,13 +44,18 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   Future<List<Book>> fetchBooksBySearchKeyword(String searchKeyword) async {
-    final response = await get(
-        Uri.parse("https://www.googleapis.com/books/v1/volumes")
-            .replace(queryParameters: {"q": searchKeyword}));
+    Uri url = Uri.parse(
+            "https://www.googleapis.com/books/v1/volumes?q={search terms}")
+        .replace(queryParameters: {"q": searchKeyword});
+    final response = await get(url);
+
     if (response.statusCode == 200) {
-      return (jsonDecode(response.body)["items"] as List<dynamic>)
+      print(response.body);
+      final item = (jsonDecode(response.body)["items"] as List<dynamic>)
           .map(((item) => Book.fromJson(item)))
           .toList();
+      print(item);
+      return item;
     } else {
       throw Exception('Failed to load album');
     }
@@ -67,8 +74,7 @@ class _SearchScreenState extends State<SearchScreen> {
           : null,
       automaticallyImplyLeading: false,
       backgroundColor: Theme.of(context).primaryColor,
-      title:
-          Text(_searchKeyword.isNotEmpty ? '"$_searchKeyword"' : "Pencarian"),
+      title: Text(_searchKeyword.isNotEmpty ? '$_searchKeyword' : "Pencarian"),
       actions: [
         IconButton(
             onPressed: (() {
@@ -121,12 +127,16 @@ class _SearchScreenState extends State<SearchScreen> {
             icon: const Icon(Icons.close)),
         IconButton(
             onPressed: ((() {
+              print('1');
               if (_searchKeywordInputController.text.isNotEmpty) {
+                print('2');
                 setState(() {
                   _appBarIsExpanded = false;
-                  _searchKeyword = _searchKeywordInputController.text;
-                  _futureBooks = fetchBooksBySearchKeyword(
-                      _searchKeywordInputController.text);
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: ((context) => SearchScreen(
+                            initialSearchKeyword:
+                                _searchKeywordInputController.text,
+                          ))));
                 });
               }
             })),

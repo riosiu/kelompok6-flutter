@@ -62,19 +62,10 @@ class BookCard extends StatelessWidget {
                       style: TextStyle(color: Colors.black.withOpacity(0.6)),
                     ),
                   ),
-                  // Visibility(
-                  //     visible: book.smallThumbnailSrc != null,
-
-                  Container(
-                    width: 100,
-                    height: 150,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ), //     child: Image.network(book.smallThumbnailSrc!)),
-                  book.thumbnailSrc != null
-                      ? Image.network(book.thumbnailSrc!)
-                      : const SizedBox(), // nambahain gambar
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: Image.network(book.thumbnailSrc!),
+                  ),
                   ButtonBar(
                     alignment: MainAxisAlignment.spaceBetween,
                     children: [

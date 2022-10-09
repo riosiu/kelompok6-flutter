@@ -65,10 +65,10 @@ class BookBottomSheet extends StatelessWidget {
                   height: 150,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(8),
-                    // child: Image.network(
-                    //   book.smallThumbnailSrc,
-                    //   fit: BoxFit.cover,
-                    // ),
+                    child: Image.network(
+                      book.thumbnailSrc!,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),
