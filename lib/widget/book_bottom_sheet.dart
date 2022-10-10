@@ -1,14 +1,38 @@
 import 'package:booktrackers/classes/book.dart';
+import 'package:booktrackers/services/saved_book_service.dart';
+import 'package:booktrackers/widget/book_card_save_button.dart';
 import 'package:booktrackers/widget/detail_widget/author_widget.dart';
 import 'package:booktrackers/widget/detail_widget/description_widget.dart';
 import 'package:booktrackers/widget/detail_widget/row_widget_detail_book.dart';
 import 'package:booktrackers/widget/detail_widget/title_widget.dart';
+import 'package:booktrackers/widget/future_book_card_save_button.dart';
 import 'package:flutter/material.dart';
 
 class BookBottomSheet extends StatelessWidget {
   final Book book;
+  final SavedBook? savedBook;
 
-  const BookBottomSheet({Key? key, required this.book}) : super(key: key);
+  const BookBottomSheet({Key? key, required this.book, this.savedBook})
+      : super(key: key);
+
+  void saveBook() {
+    SavedBook.add(book).then((_) => null);
+  }
+
+  Widget saveButtonBuilder(BuildContext context) {
+    if (savedBook == null) {
+      return FutureBookCardSaveButton(book: book);
+    }
+
+    if (savedBook != null) {
+      return BookCardSaveButton(
+        book: book,
+        savedBook: savedBook,
+      );
+    }
+
+    return FutureBookCardSaveButton(book: book);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,9 +108,11 @@ class BookBottomSheet extends StatelessWidget {
             Positioned(
               right: 20,
               top: 20,
-              child: IconButton(
-                icon: Icon(Icons.bookmark),
-                onPressed: () {},
+              child: ButtonBar(
+                alignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  saveButtonBuilder(context),
+                ],
               ),
             ),
           ],
