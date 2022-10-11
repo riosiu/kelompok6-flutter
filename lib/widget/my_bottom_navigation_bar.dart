@@ -21,7 +21,7 @@ class MyBottomNavigationBar extends StatelessWidget {
         BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
         BottomNavigationBarItem(icon: Icon(Icons.search), label: "Cari"),
         BottomNavigationBarItem(icon: Icon(Icons.bookmark), label: "Tersimpan"),
-        BottomNavigationBarItem(icon: Icon(Icons.more_horiz), label: "Lainnya"),
+        BottomNavigationBarItem(icon: Icon(Icons.flag), label: "Misi"),
       ],
       currentIndex: currentIndex,
       selectedItemColor: Colors.white,
