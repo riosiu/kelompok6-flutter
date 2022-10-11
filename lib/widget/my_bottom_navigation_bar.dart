@@ -1,3 +1,4 @@
+import 'package:booktrackers/screens/achievements_screen.dart';
 import 'package:booktrackers/screens/others_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:booktrackers/screens/home_screen.dart';
@@ -37,9 +38,9 @@ class MyBottomNavigationBar extends StatelessWidget {
               case 2:
                 return const SavedScreen();
               case 3:
-                return const OthersScreen();
+                return const AchievementsScreen();
               default:
-                return const OthersScreen();
+                return HomeScreen();
             }
           }));
         }
