@@ -45,14 +45,14 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
                       expandedHeight: 200.0,
                       floating: false,
                       pinned: true,
-                      flexibleSpace: FlexibleSpaceBar(
+                      flexibleSpace: const FlexibleSpaceBar(
                           centerTitle: true,
-                          title: const Text(
+                          title: Text(
                             "Achievements",
                           ),
-                          background: Image.network(
-                            "https://images.pexels.com/photos/396547/pexels-photo-396547.jpeg?auto=compress&cs=tinysrgb&h=350",
-                            fit: BoxFit.cover,
+                          background: Image(
+                            image: AssetImage("assets/images/hero-bg.png"),
+                            fit: BoxFit.fill,
                           )),
                     ),
                   ];
