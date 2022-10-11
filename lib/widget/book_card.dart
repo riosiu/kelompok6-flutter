@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 class BookCard extends StatelessWidget {
   final Book book;
   final SavedBook? savedBook;
+  final Function? savedBookSetter;
 
   // TODO: delete
   final String? title;
@@ -19,27 +20,30 @@ class BookCard extends StatelessWidget {
   const BookCard(
       {super.key,
       required this.book,
+      this.savedBookSetter,
       this.savedBook,
       this.title,
       this.year,
       this.coverImageSrc,
-      this.description});
+      this.description,
+      });
 
   void saveBook() {
     SavedBook.add(book).then((_) => null);
   }
 
   Widget saveButtonBuilder(BuildContext context) {
-    if (savedBook == null) {
-      return FutureBookCardSaveButton(book: book);
-    }
+    // if (savedBook == null) {
+    //   return FutureBookCardSaveButton(book: book);
+    // }
 
-    if (savedBook != null) {
-      return BookCardSaveButton(
-        book: book,
-        savedBook: savedBook,
-      );
-    }
+    // if (savedBook != null) {
+    //   return BookCardSaveButton(
+    //     book: book,
+    //     savedBook: savedBook,
+    //     savedBookSetter: savedBookSetter,
+    //   );
+    // }
 
     return FutureBookCardSaveButton(book: book);
   }

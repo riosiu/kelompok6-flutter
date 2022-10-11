@@ -34,7 +34,7 @@ class BookCardSaveButton extends StatelessWidget {
               context: context,
               builder: ((context) => UpdatePageDialog(
                     savedBook: savedBook!,
-                    savedBookSetter: savedBookSetter!,
+                    savedBookSetter: savedBookSetter,
                     book: book,
                   )));
         }

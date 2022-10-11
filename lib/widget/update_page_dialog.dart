@@ -71,7 +71,9 @@ class _UpdatePageDialogState extends State<UpdatePageDialog> {
                     time: DateTime.now().toIso8601String(),
                     eventType: BookLogEventType.updatedBookReadingProgress));
               }
-              widget.savedBookSetter!();
+              if (widget.savedBookSetter != null) {
+                widget.savedBookSetter!();
+              }
               Navigator.pop(context);
             },
             child: const Text("Simpan")),
