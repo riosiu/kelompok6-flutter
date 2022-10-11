@@ -56,6 +56,7 @@ class BookCard extends StatelessWidget {
             children: [
               Positioned(
                 top: 0,
+                left: 12,
                 child: Card(
                   elevation: 10,
                   shadowColor: Colors.teal.withOpacity(0.5),
@@ -87,8 +88,8 @@ class BookCard extends StatelessWidget {
               ),
               Positioned(
                 top: 8,
-                left: 150,
-                width: 200,
+                left: 180,
+                width: 180,
                 child: Container(
                   height: 150,
                   width: 200,
