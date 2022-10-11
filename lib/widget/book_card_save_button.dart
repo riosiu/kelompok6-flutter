@@ -41,7 +41,7 @@ class BookCardSaveButton extends StatelessWidget {
       },
       child: savedBook?.page != null && book.pageCount != null
           ? Text("${savedBook!.page * 100 ~/ book.pageCount!}%")
-          : const Icon(Icons.bookmark),
+          : const Icon(Icons.bookmark_add_outlined),
     );
   }
 }
