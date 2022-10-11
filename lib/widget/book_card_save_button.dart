@@ -31,12 +31,13 @@ class BookCardSaveButton extends StatelessWidget {
               MaterialPageRoute(builder: (context) => const SavedScreen()));
         } else {
           showDialog(
-              context: context,
-              builder: ((context) => UpdatePageDialog(
-                    savedBook: savedBook!,
-                    savedBookSetter: savedBookSetter!,
-                    book: book,
-                  )));
+            context: context,
+            builder: ((context) => UpdatePageDialog(
+                  savedBook: savedBook!,
+                  savedBookSetter: savedBookSetter!,
+                  book: book,
+                )),
+          );
         }
       },
       child: savedBook?.page != null && book.pageCount != null

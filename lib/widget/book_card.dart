@@ -56,7 +56,6 @@ class BookCard extends StatelessWidget {
             children: [
               Positioned(
                 top: 0,
-                left: 20,
                 child: Card(
                   elevation: 10,
                   shadowColor: Colors.teal.withOpacity(0.5),
@@ -88,24 +87,24 @@ class BookCard extends StatelessWidget {
               ),
               Positioned(
                 top: 8,
-                right: -20,
-                width: 300,
+                left: 150,
+                width: 200,
                 child: Container(
                   height: 150,
-                  width: 180,
+                  width: 200,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       ListTile(
                         title: Text(
                           book.title ?? "Tanpa judul",
-                          style: TextStyle(color: Colors.teal, fontSize: 18),
+                          style: TextStyle(color: Colors.teal, fontSize: 16),
                         ),
                         subtitle: Text(
                           book.publishedDateString != null
                               ? "Tahun ${book.publishedDateString!.substring(0, 4)}"
                               : "",
-                          style: TextStyle(color: Colors.teal, fontSize: 16),
+                          style: TextStyle(color: Colors.teal, fontSize: 12),
                         ),
                       ),
                     ],
