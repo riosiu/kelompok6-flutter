@@ -151,7 +151,10 @@ class BookCard extends StatelessWidget {
                           context: context,
                           isScrollControlled: true,
                           builder: (BuildContext context) {
-                            return BookBottomSheet(book: book);
+                            return BookBottomSheet(
+                              book: book,
+                              savedBook: savedBook,
+                            );
                           });
                     },
                     child: Text('Lihat Detil'.toUpperCase()),

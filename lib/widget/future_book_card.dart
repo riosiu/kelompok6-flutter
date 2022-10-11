@@ -29,6 +29,7 @@ class _FutureBookCardState extends State<FutureBookCard> {
           if (snapshot.data != null) {
             return BookCard(
               book: snapshot.data!,
+              savedBook: widget.savedBook,
             );
           } else {
             return const SizedBox(height: 120);

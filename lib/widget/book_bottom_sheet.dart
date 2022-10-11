@@ -1,4 +1,5 @@
 import 'package:booktrackers/classes/book.dart';
+import 'package:booktrackers/screens/saved_screen.dart';
 import 'package:booktrackers/services/saved_book_service.dart';
 import 'package:booktrackers/widget/book_card_save_button.dart';
 import 'package:booktrackers/widget/detail_widget/author_widget.dart';
@@ -70,6 +71,50 @@ class BookBottomSheet extends StatelessWidget {
                     SizedBox(height: 10.0),
                     // RowdataWidget(book),
                     SizedBox(height: 10.0),
+                    savedBook == null
+                        ? const SizedBox(height: 10.0)
+                        : ButtonBar(
+                            alignment: MainAxisAlignment.center,
+                            children: [
+                              TextButton(
+                                style: ButtonStyle(
+                                  foregroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Colors.redAccent),
+                                ),
+                                onPressed: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: ((context) {
+                                        return AlertDialog(
+                                          content: const Text(
+                                              "Yakin menghapus buku ini dari daftar tersimpan?"),
+                                          actions: [
+                                            TextButton(
+                                                onPressed: () =>
+                                                    Navigator.pop(context),
+                                                child: const Text("Batalkan")),
+                                            TextButton(
+                                                onPressed: () {
+                                                  savedBook!
+                                                      .removeFromList()
+                                                      .then((_) => null);
+                                                  Navigator.pushReplacement(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: ((context) =>
+                                                              const SavedScreen())));
+                                                },
+                                                child: const Text("Ya, hapus")),
+                                          ],
+                                        );
+                                      }));
+                                },
+                                child: Text('Hapus dari daftar tersimpan'
+                                    .toUpperCase()),
+                              ),
+                            ],
+                          ),
                     Divider(),
                   ],
                 ),

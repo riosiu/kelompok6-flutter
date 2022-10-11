@@ -84,4 +84,10 @@ class SavedBook {
 
     return this;
   }
+
+  Future<void> removeFromList() async {
+    final Database db = await initDb();
+    await db.delete("saved_book",
+        where: 'google_books_volume_id = "$googleBooksVolumeId"');
+  }
 }
