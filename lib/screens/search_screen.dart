@@ -29,8 +29,10 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   void initState() {
     _searchKeyword = widget.initialSearchKeyword;
+
     if (widget.initialSearchKeyword.isNotEmpty) {
       _futureBooks = fetchBooksBySearchKeyword(widget.initialSearchKeyword);
+      print('jalan bos');
     }
     super.initState();
   }
@@ -42,13 +44,18 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   Future<List<Book>> fetchBooksBySearchKeyword(String searchKeyword) async {
-    final response = await get(
-        Uri.parse("https://www.googleapis.com/books/v1/volumes")
-            .replace(queryParameters: {"q": searchKeyword}));
+    Uri url = Uri.parse(
+            "https://www.googleapis.com/books/v1/volumes?q={search terms}")
+        .replace(queryParameters: {"q": searchKeyword});
+    final response = await get(url);
+
     if (response.statusCode == 200) {
-      return (jsonDecode(response.body)["items"] as List<dynamic>)
+      print(response.body);
+      final item = (jsonDecode(response.body)["items"] as List<dynamic>)
           .map(((item) => Book.fromJson(item)))
           .toList();
+      print(item);
+      return item;
     } else {
       throw Exception('Failed to load album');
     }
@@ -67,8 +74,13 @@ class _SearchScreenState extends State<SearchScreen> {
           : null,
       automaticallyImplyLeading: false,
       backgroundColor: Theme.of(context).primaryColor,
-      title:
-          Text(_searchKeyword.isNotEmpty ? '"$_searchKeyword"' : "Pencarian"),
+      title: Center(
+        child: Text(
+          _searchKeyword.isNotEmpty ? '$_searchKeyword' : "Pencarian",
+          style: TextStyle(fontSize: 24),
+          textAlign: TextAlign.center,
+        ),
+      ),
       actions: [
         IconButton(
             onPressed: (() {
@@ -120,97 +132,106 @@ class _SearchScreenState extends State<SearchScreen> {
             })),
             icon: const Icon(Icons.close)),
         IconButton(
-            onPressed: ((() {
-              if (_searchKeywordInputController.text.isNotEmpty) {
-                setState(() {
+          onPressed: ((() {
+            print('search book');
+            if (_searchKeywordInputController.text.isNotEmpty) {
+              setState(
+                () {
                   _appBarIsExpanded = false;
-                  _searchKeyword = _searchKeywordInputController.text;
-                  _futureBooks = fetchBooksBySearchKeyword(
-                      _searchKeywordInputController.text);
-                });
-              }
-            })),
-            icon: const Icon(Icons.search))
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: ((context) => SearchScreen(
+                            initialSearchKeyword:
+                                _searchKeywordInputController.text,
+                          ))));
+                },
+              );
+            }
+          })),
+          icon: const Icon(Icons.search),
+        ),
       ],
     );
   }
 
   Widget buildBookList() {
     return FutureBuilder<List<Book>>(
-        future: _futureBooks,
-        builder: (((context, snapshot) {
-          if (snapshot.hasError) {
-            return Center(child: Text(snapshot.error.toString()));
-          }
+      future: _futureBooks,
+      builder: (((context, snapshot) {
+        if (snapshot.hasError) {
+          return Center(child: Text(snapshot.error.toString()));
+        }
 
-          if (snapshot.data != null) {
-            return ListView.builder(
-                itemCount: snapshot.data!.length,
-                itemBuilder: ((context, index) {
-                  Book currentIndexBook = snapshot.data![index];
+        if (snapshot.data != null) {
+          return ListView.builder(
+            itemCount: snapshot.data!.length,
+            itemBuilder: ((context, index) {
+              Book currentIndexBook = snapshot.data![index];
 
-                  return BookCard(
-                    book: currentIndexBook,
-                  );
-                }));
-          }
+              return BookCard(
+                book: currentIndexBook,
+              );
+            }),
+          );
+        }
 
-          return const Center(child: CircularProgressIndicator());
-        })));
+        return const Center(child: CircularProgressIndicator());
+      })),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: _appBarIsExpanded
-            ? searchExpandedAppBar(context)
-            : searchNotExpandedAppBar(context),
-        body: _searchKeyword.isNotEmpty
-            ? buildBookList()
-            : Center(
-                child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(
-                    Icons.search,
-                    size: 128.0,
-                    color: Colors.black26,
-                  ),
-                  const SizedBox(
-                    height: 24,
-                  ),
-                  const Text(
-                    "Cari berdasarkan judul atau ISBN",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 18.0, color: Colors.black26),
-                  ),
-                  const SizedBox(
-                    height: 24,
-                  ),
-                  TextButton(
-                      onPressed: (() {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const SearchScreen(
-                                  initialSearchKeyword: "harry potter",
-                                )));
-                      }),
-                      child: const Text('Cari "harry potter"')),
-                  const SizedBox(
-                    height: 4,
-                  ),
-                  TextButton(
-                      onPressed: (() {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const SearchScreen(
-                                  initialSearchKeyword: "9780151660346",
-                                )));
-                      }),
-                      child: const Text('Cari "9780151660346"')),
-                ],
-              )),
-        bottomNavigationBar: MyBottomNavigationBar(
-          currentIndex: 1,
-          theme: theme,
-        ));
+      appBar: _appBarIsExpanded
+          ? searchExpandedAppBar(context)
+          : searchNotExpandedAppBar(context),
+      body: _searchKeyword.isNotEmpty
+          ? buildBookList()
+          : Center(
+              child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(
+                  Icons.search,
+                  size: 128.0,
+                  color: Colors.black26,
+                ),
+                const SizedBox(
+                  height: 24,
+                ),
+                const Text(
+                  "Cari berdasarkan judul atau ISBN",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 18.0, color: Colors.black26),
+                ),
+                const SizedBox(
+                  height: 24,
+                ),
+                TextButton(
+                    onPressed: (() {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const SearchScreen(
+                                initialSearchKeyword: "harry potter",
+                              )));
+                    }),
+                    child: const Text('Cari "harry potter"')),
+                const SizedBox(
+                  height: 4,
+                ),
+                TextButton(
+                    onPressed: (() {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const SearchScreen(
+                                initialSearchKeyword: "9780151660346",
+                              )));
+                    }),
+                    child: const Text('Cari "9780151660346"')),
+              ],
+            )),
+      bottomNavigationBar: MyBottomNavigationBar(
+        currentIndex: 1,
+        theme: theme,
+      ),
+    );
   }
 }

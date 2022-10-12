@@ -21,16 +21,25 @@ class Book {
       this.thumbnailSrc});
 
   factory Book.fromJson(Map<String, dynamic> json) {
+    var volumeInfo = json['volumeInfo'];
     return Book(
+      //perlu diperbaiki
       id: json["id"] as String?,
       etag: json["etag"] as String?,
-      title: json["volumeInfo"]["title"] as String?,
-      authors: json["volumeInfo"]["authors"].cast<String>(),
-      publisher: json["volumeInfo"]["publisher"] as String?,
-      publishedDateString: json["volumeInfo"]["publishedDate"] as String?,
-      description: json["volumeInfo"]["description"] as String?,
-      pageCount: json["volumeInfo"]["pageCount"] as int?,
-      thumbnailSrc: json["volumeInfo"]["imageLinks"]["thumbnail"] as String?,
+      title: volumeInfo["title"] as String?,
+      // authors: volumeInfo["authors"].cast<String>(),
+      authors: volumeInfo["authors"] != null
+          ? (volumeInfo['authors'] as List<dynamic>)
+              .map((author) => author.toString())
+              .toList()
+          : [''],
+      publisher: volumeInfo["publisher"] as String?,
+      publishedDateString: volumeInfo["publishedDate"] as String?,
+      description: volumeInfo["description"] as String?,
+      pageCount: volumeInfo["pageCount"] as int?,
+      thumbnailSrc: volumeInfo["imageLinks"] != null
+          ? '${volumeInfo['imageLinks']['thumbnail']}'
+          : 'https://i.ibb.co/h8pD6X3/image-2.jpg',
     );
   }
 
