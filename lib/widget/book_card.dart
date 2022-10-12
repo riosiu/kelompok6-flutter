@@ -17,16 +17,16 @@ class BookCard extends StatelessWidget {
   final String? coverImageSrc;
   final String? description;
 
-  const BookCard(
-      {super.key,
-      required this.book,
-      this.savedBookSetter,
-      this.savedBook,
-      this.title,
-      this.year,
-      this.coverImageSrc,
-      this.description,
-      });
+  const BookCard({
+    super.key,
+    required this.book,
+    this.savedBookSetter,
+    this.savedBook,
+    this.title,
+    this.year,
+    this.coverImageSrc,
+    this.description,
+  });
 
   void saveBook() {
     SavedBook.add(book).then((_) => null);

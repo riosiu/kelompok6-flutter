@@ -2,6 +2,7 @@ import 'package:booktrackers/classes/book.dart';
 import 'package:booktrackers/classes/book_log.dart';
 import 'package:booktrackers/services/book_log_service.dart';
 import 'package:booktrackers/services/saved_book_service.dart';
+import 'package:booktrackers/widget/remove_book_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -53,8 +54,9 @@ class _UpdatePageDialogState extends State<UpdatePageDialog> {
       ),
       actions: [
         TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text("Batalkan")),
+          onPressed: () => Navigator.pop(context),
+          child: const Text("Batalkan"),
+        ),
         TextButton(
             onPressed: () {
               widget.savedBook
