@@ -1,14 +1,39 @@
 import 'package:booktrackers/classes/book.dart';
+import 'package:booktrackers/screens/saved_screen.dart';
+import 'package:booktrackers/services/saved_book_service.dart';
+import 'package:booktrackers/widget/book_card_save_button.dart';
 import 'package:booktrackers/widget/detail_widget/author_widget.dart';
 import 'package:booktrackers/widget/detail_widget/description_widget.dart';
 import 'package:booktrackers/widget/detail_widget/row_widget_detail_book.dart';
 import 'package:booktrackers/widget/detail_widget/title_widget.dart';
+import 'package:booktrackers/widget/future_book_card_save_button.dart';
 import 'package:flutter/material.dart';
 
 class BookBottomSheet extends StatelessWidget {
   final Book book;
+  final SavedBook? savedBook;
 
-  const BookBottomSheet({Key? key, required this.book}) : super(key: key);
+  const BookBottomSheet({Key? key, required this.book, this.savedBook})
+      : super(key: key);
+
+  void saveBook() {
+    SavedBook.add(book).then((_) => null);
+  }
+
+  Widget saveButtonBuilder(BuildContext context) {
+    if (savedBook == null) {
+      return FutureBookCardSaveButton(book: book);
+    }
+
+    if (savedBook != null) {
+      return BookCardSaveButton(
+        book: book,
+        savedBook: savedBook,
+      );
+    }
+
+    return FutureBookCardSaveButton(book: book);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +71,50 @@ class BookBottomSheet extends StatelessWidget {
                     SizedBox(height: 10.0),
                     // RowdataWidget(book),
                     SizedBox(height: 10.0),
+                    savedBook == null
+                        ? const SizedBox(height: 10.0)
+                        : ButtonBar(
+                            alignment: MainAxisAlignment.center,
+                            children: [
+                              TextButton(
+                                style: ButtonStyle(
+                                  foregroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Colors.redAccent),
+                                ),
+                                onPressed: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: ((context) {
+                                        return AlertDialog(
+                                          content: const Text(
+                                              "Yakin menghapus buku ini dari daftar tersimpan?"),
+                                          actions: [
+                                            TextButton(
+                                                onPressed: () =>
+                                                    Navigator.pop(context),
+                                                child: const Text("Batalkan")),
+                                            TextButton(
+                                                onPressed: () {
+                                                  savedBook!
+                                                      .removeFromList()
+                                                      .then((_) => null);
+                                                  Navigator.pushReplacement(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: ((context) =>
+                                                              const SavedScreen())));
+                                                },
+                                                child: const Text("Ya, hapus")),
+                                          ],
+                                        );
+                                      }));
+                                },
+                                child: Text('Hapus dari daftar tersimpan'
+                                    .toUpperCase()),
+                              ),
+                            ],
+                          ),
                     Divider(),
                   ],
                 ),
@@ -65,10 +134,10 @@ class BookBottomSheet extends StatelessWidget {
                   height: 150,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(8),
-                    // child: Image.network(
-                    //   book.smallThumbnailSrc,
-                    //   fit: BoxFit.cover,
-                    // ),
+                    child: Image.network(
+                      book.thumbnailSrc!,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),
@@ -84,9 +153,11 @@ class BookBottomSheet extends StatelessWidget {
             Positioned(
               right: 20,
               top: 20,
-              child: IconButton(
-                icon: Icon(Icons.bookmark),
-                onPressed: () {},
+              child: ButtonBar(
+                alignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  saveButtonBuilder(context),
+                ],
               ),
             ),
           ],

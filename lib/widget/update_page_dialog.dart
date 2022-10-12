@@ -1,4 +1,6 @@
 import 'package:booktrackers/classes/book.dart';
+import 'package:booktrackers/classes/book_log.dart';
+import 'package:booktrackers/services/book_log_service.dart';
 import 'package:booktrackers/services/saved_book_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -57,7 +59,21 @@ class _UpdatePageDialogState extends State<UpdatePageDialog> {
             onPressed: () {
               widget.savedBook
                   .updateProgress(int.parse(_pageNumberInputController.text));
-              widget.savedBookSetter!();
+              if (widget.book.pageCount ==
+                  int.parse(_pageNumberInputController.text)) {
+                BookLogService.log(BookLog(
+                    googleBooksVolumeId: widget.savedBook.googleBooksVolumeId,
+                    time: DateTime.now().toIso8601String(),
+                    eventType: BookLogEventType.finishedReading));
+              } else {
+                BookLogService.log(BookLog(
+                    googleBooksVolumeId: widget.savedBook.googleBooksVolumeId,
+                    time: DateTime.now().toIso8601String(),
+                    eventType: BookLogEventType.updatedBookReadingProgress));
+              }
+              if (widget.savedBookSetter != null) {
+                widget.savedBookSetter!();
+              }
               Navigator.pop(context);
             },
             child: const Text("Simpan")),

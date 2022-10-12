@@ -7,7 +7,7 @@ class Book {
   final String? publishedDateString;
   final String? description;
   final int? pageCount;
-  final String? smallThumbnailSrc;
+  final String? thumbnailSrc;
 
   const Book(
       {this.id,
@@ -18,19 +18,28 @@ class Book {
       this.publishedDateString,
       this.description,
       this.pageCount,
-      this.smallThumbnailSrc});
+      this.thumbnailSrc});
 
   factory Book.fromJson(Map<String, dynamic> json) {
+    var volumeInfo = json['volumeInfo'];
     return Book(
+      //perlu diperbaiki
       id: json["id"] as String?,
       etag: json["etag"] as String?,
-      title: json["volumeInfo"]["title"] as String?,
-      authors: json["volumeInfo"]["authors"].cast<String>(),
-      publisher: json["volumeInfo"]["publisher"] as String?,
-      publishedDateString: json["volumeInfo"]["publishedDate"] as String?,
-      description: json["volumeInfo"]["description"] as String?,
-      pageCount: json["volumeInfo"]["pageCount"] as int?,
-      smallThumbnailSrc: json["volumeInfo"]["smallThumbnail"] as String?,
+      title: volumeInfo["title"] as String?,
+      // authors: volumeInfo["authors"].cast<String>(),
+      authors: volumeInfo["authors"] != null
+          ? (volumeInfo['authors'] as List<dynamic>)
+              .map((author) => author.toString())
+              .toList()
+          : [''],
+      publisher: volumeInfo["publisher"] as String?,
+      publishedDateString: volumeInfo["publishedDate"] as String?,
+      description: volumeInfo["description"] as String?,
+      pageCount: volumeInfo["pageCount"] as int?,
+      thumbnailSrc: volumeInfo["imageLinks"] != null
+          ? '${volumeInfo['imageLinks']['thumbnail']}'
+          : 'https://i.ibb.co/h8pD6X3/image-2.jpg',
     );
   }
 
@@ -44,7 +53,7 @@ class Book {
       "publishedDateString": publishedDateString,
       "description": description,
       "pageCount": pageCount,
-      "smallThumbnailSrc": smallThumbnailSrc
+      "thumbnailSrc": thumbnailSrc
     };
   }
 }

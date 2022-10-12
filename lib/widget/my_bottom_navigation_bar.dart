@@ -1,3 +1,5 @@
+import 'package:booktrackers/screens/achievements_screen.dart';
+import 'package:booktrackers/screens/others_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:booktrackers/screens/home_screen.dart';
 import 'package:booktrackers/screens/saved_screen.dart';
@@ -19,7 +21,7 @@ class MyBottomNavigationBar extends StatelessWidget {
         BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
         BottomNavigationBarItem(icon: Icon(Icons.search), label: "Cari"),
         BottomNavigationBarItem(icon: Icon(Icons.bookmark), label: "Tersimpan"),
-        BottomNavigationBarItem(icon: Icon(Icons.more_horiz), label: "Lainnya"),
+        BottomNavigationBarItem(icon: Icon(Icons.flag), label: "Misi"),
       ],
       currentIndex: currentIndex,
       selectedItemColor: Colors.white,
@@ -35,6 +37,8 @@ class MyBottomNavigationBar extends StatelessWidget {
                 return const SearchScreen();
               case 2:
                 return const SavedScreen();
+              case 3:
+                return const AchievementsScreen();
               default:
                 return HomeScreen();
             }

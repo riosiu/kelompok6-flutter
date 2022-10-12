@@ -74,12 +74,20 @@ class SavedBook {
 
   Future<SavedBook> updateProgress(int page) async {
     final Database db = await initDb();
-    final result = await db.update("saved_book", <String, Object?>{
-      "google_books_volume_id": googleBooksVolumeId,
-      "page": page,
-    });
+    final result = await db.update(
+        "saved_book",
+        <String, Object?>{
+          "page": page,
+        },
+        where: 'google_books_volume_id = "$googleBooksVolumeId"');
     this.page = page;
 
     return this;
+  }
+
+  Future<void> removeFromList() async {
+    final Database db = await initDb();
+    await db.delete("saved_book",
+        where: 'google_books_volume_id = "$googleBooksVolumeId"');
   }
 }
