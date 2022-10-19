@@ -23,7 +23,7 @@ class MissionListItem extends StatelessWidget {
             : Colors.black26,
       ),
       title: Text(missionTitle),
-      subtitle: Text("minimal $currentXp xp"),
+      subtitle: Text("minimal $minimumXp xp"),
     );
   }
 }
