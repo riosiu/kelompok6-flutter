@@ -1,3 +1,4 @@
+import 'package:booktrackers/services/achievements_service.dart';
 import 'package:booktrackers/services/saved_book_service.dart';
 import 'package:booktrackers/widget/future_book_card.dart';
 import 'package:flutter/material.dart';
@@ -13,9 +14,18 @@ class HomeScreen extends StatefulWidget {
 
 class HomeScreenState extends State<HomeScreen> {
   Future<List<SavedBook>>? _savedBooks;
+  double? xp;
 
   Future<List<SavedBook>> fetchSavedBooks() async {
     return await SavedBook.getMany();
+  }
+
+  void loadAchievement() async {
+    double result = await AchievementsService.getXP();
+
+    setState(() {
+      xp = result;
+    });
   }
 
   Widget bookCardListBuilder() {
@@ -54,11 +64,15 @@ class HomeScreenState extends State<HomeScreen> {
   void initState() {
     _savedBooks = fetchSavedBooks();
 
+    loadAchievement();
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    var currentLevel = AchievementsService.getLevelByXp(xp!);
+
     return Scaffold(
         body: NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -88,21 +102,27 @@ class HomeScreenState extends State<HomeScreen> {
                         ),
                         Container(
                             margin: const EdgeInsets.only(bottom: 48),
-                            child: Chip(
-                              label: Column(children: [
-                                Text("Level 12"),
-                                Text(
-                                  "420xp",
-                                  style: TextStyle(fontSize: 8),
-                                )
-                              ]),
-                              avatar: CircularProgressIndicator(
-                                strokeWidth: 3.0,
-                                value: 0.41,
-                                color: Theme.of(context).primaryColor,
-                                backgroundColor: Colors.black12,
-                              ),
-                            )),
+                            child: xp != null
+                                ? Chip(
+                                    label: Column(children: [
+                                      Text("Level $currentLevel"),
+                                      Text(
+                                        "${xp!} xp",
+                                        style: const TextStyle(fontSize: 8),
+                                      )
+                                    ]),
+                                    avatar: CircularProgressIndicator(
+                                      strokeWidth: 3.0,
+                                      value: xp! /
+                                          (((currentLevel + 1) / 2) *
+                                              (currentLevel * 300)),
+                                      color: Theme.of(context).primaryColor,
+                                      backgroundColor: Colors.black12,
+                                    ),
+                                  )
+                                : SizedBox(
+                                    height: 48,
+                                  )),
                       ])),
                 ),
               )
