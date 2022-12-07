@@ -71,7 +71,7 @@ class HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var currentLevel = AchievementsService.getLevelByXp(xp!);
+    var currentLevel = AchievementsService.getLevelByXp(xp ?? 0);
 
     return Scaffold(
         body: NestedScrollView(
